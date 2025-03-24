@@ -31,7 +31,8 @@ namespace Securitate
 
         public static void BlocheazaLoc(int numarLoc)
         {
-            Log($"Locul {numarLoc} a fost blocat din motive de securitate.");
+            Log($"locul {numarLoc} a fost blocat din motive de securitate.");
+            Console.WriteLine($"locul {numarLoc} a fost blocat.");
         }
     }
 }

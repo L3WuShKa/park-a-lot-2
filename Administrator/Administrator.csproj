@@ -45,6 +45,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Tichet\Tichet.csproj">
+      <Project>{a111a61a-09a9-4bca-b167-6602ef609a26}</Project>
+      <Name>Tichet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ParcareMare\ParcareMare.csproj">
       <Project>{e586b195-6ae9-47bd-a378-3930d90682b7}</Project>
       <Name>ParcareMare</Name>
