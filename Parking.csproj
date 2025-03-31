@@ -50,10 +50,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Tichet\Tichet.csproj">
-      <Project>{a111a61a-09a9-4bca-b167-6602ef609a26}</Project>
-      <Name>Tichet</Name>
-    </ProjectReference>
     <ProjectReference Include="Administrator\Administrator.csproj">
       <Project>{b852dd96-efca-4d0c-a6bb-8ed90059f677}</Project>
       <Name>Administrator</Name>
@@ -73,6 +69,10 @@
     <ProjectReference Include="Securitate\Securitate.csproj">
       <Project>{689dc823-0c9a-49a8-9941-20d75162f892}</Project>
       <Name>Securitate</Name>
+    </ProjectReference>
+    <ProjectReference Include="Tichet\Tichet.csproj">
+      <Project>{a111a61a-09a9-4bca-b167-6602ef609a26}</Project>
+      <Name>Tichet</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
