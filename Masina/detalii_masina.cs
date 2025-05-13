@@ -12,6 +12,7 @@ namespace Masina
         public DateTime DataIntrare { get; set; }
         public DateTime DataActualizare { get; set; }
 
+
         public DetaliiMasina(string numar, string proprietar, string marca, string culoare)
         {
             NumarInmatriculare = numar;
