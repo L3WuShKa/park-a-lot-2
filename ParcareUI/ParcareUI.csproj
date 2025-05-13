@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{99867A58-B66B-4371-A325-8F4A66474CCB}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>Parking</RootNamespace>
-    <AssemblyName>Parking</AssemblyName>
+    <ProjectGuid>{CFEE09EA-A775-46E8-A4CD-A7BAD6A5211A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>ParcareUI</RootNamespace>
+    <AssemblyName>ParcareUI</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -34,59 +34,98 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MetroFramework, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
-      <HintPath>packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.dll</HintPath>
+      <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.dll</HintPath>
     </Reference>
     <Reference Include="MetroFramework.Design, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
-      <HintPath>packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Design.dll</HintPath>
+      <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Design.dll</HintPath>
     </Reference>
     <Reference Include="MetroFramework.Fonts, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
-      <HintPath>packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Fonts.dll</HintPath>
+      <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Fonts.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PasswordForm.Designer.cs">
+      <DependentUpon>PasswordForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SearchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SearchForm.Designer.cs">
+      <DependentUpon>SearchForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PaymentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PaymentForm.Designer.cs">
+      <DependentUpon>PaymentForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Administrator\Administrator.csproj">
+    <ProjectReference Include="..\Administrator\Administrator.csproj">
       <Project>{b852dd96-efca-4d0c-a6bb-8ed90059f677}</Project>
       <Name>Administrator</Name>
     </ProjectReference>
-    <ProjectReference Include="LocParcare\LocParcare.csproj">
+    <ProjectReference Include="..\LocParcare\LocParcare.csproj">
       <Project>{17ced4bf-9404-4753-9d82-4de588db6a09}</Project>
       <Name>LocParcare</Name>
     </ProjectReference>
-    <ProjectReference Include="Masina\Masina.csproj">
+    <ProjectReference Include="..\Masina\Masina.csproj">
       <Project>{3dc9061e-6f88-45a3-b18f-dc3ee1dfe850}</Project>
       <Name>Masina</Name>
     </ProjectReference>
-    <ProjectReference Include="ParcareMare\ParcareMare.csproj">
+    <ProjectReference Include="..\ParcareMare\ParcareMare.csproj">
       <Project>{e586b195-6ae9-47bd-a378-3930d90682b7}</Project>
       <Name>ParcareMare</Name>
     </ProjectReference>
-    <ProjectReference Include="ParcareUI\ParcareUI.csproj">
-      <Project>{cfee09ea-a775-46e8-a4cd-a7bad6a5211a}</Project>
-      <Name>ParcareUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="Securitate\Securitate.csproj">
-      <Project>{689dc823-0c9a-49a8-9941-20d75162f892}</Project>
-      <Name>Securitate</Name>
-    </ProjectReference>
-    <ProjectReference Include="Tichet\Tichet.csproj">
+    <ProjectReference Include="..\Tichet\Tichet.csproj">
       <Project>{a111a61a-09a9-4bca-b167-6602ef609a26}</Project>
       <Name>Tichet</Name>
     </ProjectReference>

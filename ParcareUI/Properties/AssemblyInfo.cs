@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ParcareMare")]
+[assembly: AssemblyTitle("ParcareUI")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ParcareMare")]
+[assembly: AssemblyProduct("ParcareUI")]
 [assembly: AssemblyCopyright("Copyright ©  2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e586b195-6ae9-47bd-a378-3930d90682b7")]
+[assembly: Guid("cfee09ea-a775-46e8-a4cd-a7bad6a5211a")]
 
 // Version information for an assembly consists of the following four values:
 //

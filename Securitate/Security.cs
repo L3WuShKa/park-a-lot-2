@@ -1,6 +1,24 @@
 ﻿using System;
 using System.IO;
 
+
+namespace Common
+{
+    public static class Security
+    {
+        public const string FisierLog = "log_securitate.txt";
+
+        public static void Log(string mesaj)
+        {
+            using (var sw = new System.IO.StreamWriter(FisierLog, true))
+            {
+                sw.WriteLine($"{System.DateTime.Now}: {mesaj}");
+            }
+        }
+    }
+}
+
+
 namespace Securitate
 {
     public static class Security

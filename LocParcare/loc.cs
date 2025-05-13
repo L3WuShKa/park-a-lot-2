@@ -8,13 +8,14 @@ namespace LocParcare
         public int NumarLoc { get; set; }
         public bool Ocupat { get; private set; }
         public bool VIP { get; set; }
-        public DateTime DataOcupare { get; private set; }
+        public DateTime DataOcupare { get; set; }
 
         public Loc(int numar)
         {
             NumarLoc = numar;
             Ocupat = false;
             VIP = false;
+            DataOcupare = DateTime.MinValue;
         }
 
         public void OcupaLoc()
@@ -28,14 +29,15 @@ namespace LocParcare
             else
             {
                 Console.WriteLine("Locul este deja ocupat.");
-                Security.Log($"Încercare de ocupare a locului deja ocupat {NumarLoc}."); //scriu in log
+                Security.Log($"Încercare de ocupare a locului deja ocupat {NumarLoc}.");
             }
         }
 
         public void ElibereazaLoc()
         {
             Ocupat = false;
-            VIP = false; //resetez vip-ul cand eliberez parcarea, de exemplu mai vin pe viitor inca odata si daca nu resetez, o sa ramana vip si nu e ok T~T
+            VIP = false;
+            DataOcupare = DateTime.MinValue;
             Security.Log($"Locul {NumarLoc} a fost eliberat.");
         }
     }

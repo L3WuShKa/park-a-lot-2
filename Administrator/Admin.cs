@@ -1,58 +1,37 @@
 ﻿using System;
 using System.IO;
-using Securitate;
-using ParcareMare;
-using Tichet;
+using System.Linq;
+using Common;
 
 namespace Administrator
 {
-    public class Admin
+    public class Admin : IAdminAccess
     {
-        public static void MeniuAdmin()
+        private const string FisierMasini = "masini.txt";
+        private const string FisierPlati = "plati.txt";
+        private const string AdminPassword = "12345";
+
+        public bool Authenticate(string password)
         {
-            string optiune;
-            do
-            {
-                Console.Clear();
-                Console.WriteLine("MENIU ADMINISTRATOR");
-                Console.WriteLine("1. Afisare log securitate");
-                Console.WriteLine("2. Sterge log securitate");
-                Console.WriteLine("3. Afisare masini in parcare");
-                Console.WriteLine("4. Afisare istoric plati");
-                Console.WriteLine("5. Inapoi");
-                Console.Write("Optiune: ");
-
-                optiune = Console.ReadLine();
-
-                switch (optiune)
-                {
-                    case "1":
-                        AfiseazaLogSecuritate();
-                        break;
-                    case "2":
-                        StergeLogSecuritate();
-                        break;
-                    case "3":
-                        AfiseazaMasiniInParcare();
-                        break;
-                    case "4":
-                        AfiseazaIstoricPlati();
-                        break;
-                }
-                if (optiune != "5")
-                {
-                    Console.WriteLine("\nApasati orice tasta pentru a continua...");
-                    Console.ReadKey();
-                }
-            } while (optiune != "5");
+            bool success = password == AdminPassword;
+            Security.Log(success ? "Acces administrativ permis" : "Incercare esuata de acces administrativ");
+            return success;
         }
 
-        static void AfiseazaLogSecuritate()
+        public void ShowAdminMenu()
         {
-            Console.WriteLine("\nLOGURI SECURITATE:");
+            AfiseazaLogSecuritate();
+        }
+
+        public void AfiseazaLogSecuritate()
+        {
+            Console.WriteLine("\n=== LOGURI SECURITATE ===");
             if (File.Exists(Security.FisierLog))
             {
-                Console.WriteLine(File.ReadAllText(Security.FisierLog)); //citesc deoadata tot fisierul
+                foreach (string line in File.ReadLines(Security.FisierLog))
+                {
+                    Console.WriteLine(line);
+                }
             }
             else
             {
@@ -60,71 +39,108 @@ namespace Administrator
             }
         }
 
-        static void StergeLogSecuritate()
+        public void StergeLogSecuritate()
         {
             if (File.Exists(Security.FisierLog))
             {
                 File.Delete(Security.FisierLog);
-                Console.WriteLine("Logurile au fost sterse!");
+                Console.WriteLine("Logurile au fost sterse cu succes!");
             }
             else
             {
-                Console.WriteLine("Nu exista loguri!");
+                Console.WriteLine("Nu exista fisier log!");
             }
         }
 
-
-        static void AfiseazaMasiniInParcare()
+        public void AfiseazaMasiniInParcare()
         {
-            Console.WriteLine("\nMASINI IN PARCARE:");
-            if (File.Exists("masini.txt"))
+            Console.WriteLine("\n=== MASINI IN PARCARE ===");
+            if (File.Exists(FisierMasini))
             {
-                string[] lines = File.ReadAllLines("masini.txt");
-                foreach (string line in lines)
+                var masini = File.ReadAllLines(FisierMasini)
+                    .Where(line => !line.Contains(";IESIT;"))
+                    .ToList();
+
+                if (masini.Any())
                 {
-                    if (!line.Contains(";")) continue; // imi da skip la liniile goale sau care nu contin;
-                    string[] parts = line.Split(';');
-
-                    
-                    if (parts.Length >= 7 && !line.Contains(";IESIT;"))
+                    Console.WriteLine("Nr. | Proprietar          | Marca       | Culoare   | Loc | Tip      | Intrare");
+                    Console.WriteLine("----------------------------------------------------------------------------");
+                    foreach (string line in masini)
                     {
-                        bool isVIP = parts[6] == "VIP"; // ce face e ca daca  parts[6] e "VIP" atunci isvip e true 
-                        Console.WriteLine($"Nr: {parts[0]} - Loc: {parts[5]} - Tip: {(isVIP ? "VIP" : "Normal")}");
-                        Console.WriteLine($"  Intrare: {parts[4]}");
+                        string[] parts = line.Split(';');
+                        if (parts.Length >= 7)
+                        {
+                            Console.WriteLine($"{parts[0],-4} | {parts[1],-19} | {parts[2],-11} | {parts[3],-9} | {parts[5],3} | {parts[6],-8} | {parts[4]}");
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Nu exista masini in parcare!");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Nu exista date despre masini!");
+            }
+        }
 
-                        // Calculate current price
-                        DateTime intrare = DateTime.Parse(parts[4]);// parse imi transforma stringul in data de calendar.
-                        TimeSpan durata = DateTime.Now - intrare;
-                        double pretRON = durata.TotalSeconds * (isVIP ? 14.0 : 7.0); 
-                        Console.WriteLine($"  Pret curent: {pretRON:F2} RON ({pretRON * 0.2:F2} EUR)");// f2 imi arata 2 zecimale supa punct
-                        Console.WriteLine("----------------------------------");
+        public void AfiseazaIstoricPlati()
+        {
+            Console.WriteLine("\n=== ISTORIC PLATI ===");
+            if (File.Exists(FisierPlati))
+            {
+                var plati = File.ReadAllLines(FisierPlati);
+                if (plati.Any())
+                {
+                    Console.WriteLine("Data                | Nr. Masina  | Metoda   | Valuta | Suma    | Durata");
+                    Console.WriteLine("---------------------------------------------------------------");
+                    foreach (string line in plati)
+                    {
+                        string[] parts = line.Split(';');
+                        if (parts.Length >= 6)
+                        {
+                            Console.WriteLine($"{parts[0],-19} | {parts[1],-11} | {parts[2],-8} | {parts[3],-6} | {parts[4],7} | {parts[5]}");
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Nu exista plati inregistrate!");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Nu exista istoric plati!");
+            }
+        }
+
+        public void CautaMasina(string nrInmatriculare)
+        {
+            Console.WriteLine("\n=== REZULTATE CAUTARE ===");
+            bool found = false;
+
+            if (File.Exists(FisierMasini))
+            {
+                foreach (string line in File.ReadAllLines(FisierMasini))
+                {
+                    if (line.StartsWith(nrInmatriculare + ";"))
+                    {
+                        string[] parts = line.Split(';');
+                        Console.WriteLine($"Numar: {parts[0]}");
+                        Console.WriteLine($"Proprietar: {parts[1]}");
+                        Console.WriteLine($"Marca: {parts[2]}");
+                        Console.WriteLine($"Culoare: {parts[3]}");
+                        Console.WriteLine($"Data intrare: {parts[4]}");
+                        Console.WriteLine($"Loc parcare: {parts[5]}");
+                        Console.WriteLine($"Tip: {(parts[6] == "VIP" ? "VIP" : "Standard")}");
+                        if (parts.Length > 7) Console.WriteLine($"Data iesire: {parts[8]}");
+                        found = true;
+                        break;
                     }
                 }
             }
-            else
-            {
-                Console.WriteLine("Nu exista masini in parcare!");
-            }
-        }
-
-
-        static void AfiseazaIstoricPlati()
-        {
-            Console.WriteLine("\nISTORIC PLATI:");
-            if (File.Exists(Bilete.FisierPlati))
-            {
-                string[] lines = File.ReadAllLines(Bilete.FisierPlati);
-                foreach (string line in lines)
-                {
-                    if (!line.Contains(";")) continue;
-                    string[] parts = line.Split(';');
-                    Console.WriteLine($"{parts[0]} - {parts[1]} - {parts[2]} {parts[4]} {parts[3]}");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Nu exista plati!");
-            }
+            if (!found) Console.WriteLine($"Masina cu numarul {nrInmatriculare} nu a fost gasita!");
         }
     }
 }
